@@ -28,7 +28,7 @@ resource "aws_nat_gateway" "nat_gw" {
 
   # You can explicitly depend on other resources if required.
   # Only do this if you're sure that you need to.
-  depends_on    = ["aws_internet_gateway.igw"]
+  depends_on = ["aws_internet_gateway.igw"]
 }
 
 resource "aws_route_table" "main" {
