@@ -8,7 +8,7 @@ resource "aws_vpc" "vpc" {
 resource "aws_internet_gateway" "igw" {
   count  = "${var.enable_internet_access}"
   vpc_id = "${aws_vpc.vpc.id}"
-  tags   = "${merge(local.default_tags, map("Name", "igw_${var.stack}"))}"
+  tags    = "${merge(local.default_tags, map("Name", "igw_${var.stack}"))}"
 }
 
 resource "aws_subnet" "nat_gw" {

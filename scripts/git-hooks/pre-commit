@@ -16,6 +16,9 @@ set -o pipefail
 # Turn on traces, useful while debugging but commented out by default
 # set -o xtrace
 
-cd $(git rev-parse --show-toplevel)
+cd "$(git rev-parse --show-toplevel)"
 
-terraform fmt
+if [[ $(terraform fmt) ]]; then
+  echo 'Terraform formatted some of your code, review these changes and try committing again.'
+  exit 1
+fi
