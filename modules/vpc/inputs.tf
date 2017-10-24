@@ -11,6 +11,11 @@ variable "stack" {
   description = "The environment or stack name."
 }
 
+variable "enable_internet_access" {
+  description = "Boolean true/false if Internet access should be configured."
+  default     = false
+}
+
 # Locals are a feature implemented to allow interpolation easily in places it wouldn't normally work.
 # Like interpolation in variables.
 # https://www.terraform.io/docs/configuration/locals.html

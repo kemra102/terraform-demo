@@ -10,3 +10,7 @@ variable "cidr_num" {
 variable "stack" {
   description = "The environment or stack name."
 }
+
+variable "enable_internet_access" {
+  description = "Boolean true/false if Internet access should be configured."
+}

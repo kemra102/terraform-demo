@@ -6,11 +6,13 @@ resource "aws_vpc" "vpc" {
 
 # Allow outbound internet access
 resource "aws_internet_gateway" "igw" {
+  count  = "${var.enable_internet_access}"
   vpc_id = "${aws_vpc.vpc.id}"
   tags   = "${merge(local.default_tags, map("Name", "igw_${var.stack}"))}"
 }
 
 resource "aws_subnet" "nat_gw" {
+  count             = "${var.enable_internet_access}"
   vpc_id            = "${aws_vpc.vpc.id}"
   cidr_block        = "10.${var.cidr_num}.1.0/24"
   availability_zone = "${data.aws_availability_zones.available.names[0]}"
@@ -18,10 +20,12 @@ resource "aws_subnet" "nat_gw" {
 }
 
 resource "aws_eip" "nat_gw" {
-  vpc = "true"
+  count = "${var.enable_internet_access}"
+  vpc   = "true"
 }
 
 resource "aws_nat_gateway" "nat_gw" {
+  count         = "${var.enable_internet_access}"
   allocation_id = "aws_eip.nat_gw.id"
   subnet_id     = "${aws_subnet.nat_gw.id}"
   tags          = "${merge(local.default_tags, map("Name", "nat_gw_eip_${var.stack}"))}"
@@ -32,11 +36,13 @@ resource "aws_nat_gateway" "nat_gw" {
 }
 
 resource "aws_route_table" "main" {
+  count  = "${var.enable_internet_access}"
   vpc_id = "${aws_vpc.vpc.id}"
   tags   = "${merge(local.default_tags, map("Name", "rt_${var.stack}"))}"
 }
 
 resource "aws_route" "internet" {
+  count                  = "${var.enable_internet_access}"
   route_table_id         = "${aws_route_table.main.id}"
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = "${aws_nat_gateway.nat_gw.id}"
