@@ -18,7 +18,7 @@ set -o pipefail
 
 cd "$(git rev-parse --show-toplevel)"
 
-if [[ $(terraform fmt) ]]; then
+if [ "$(terraform fmt)" ]; then
   echo 'Terraform formatted some of your code, review these changes and try committing again.'
   exit 1
 fi
